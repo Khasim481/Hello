@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <form>
+        <h1><b>Shuttle Time</b></h1><br>
+        <input type="text" id="Name" placeholder="Player Name">
+
+        <button type="button" onclick="addName(this)">Add Player</button><br><br>
+        <div id="random">
+            <ul id="nlist"></ul>
+            <button type="button" onclick="generateTeams(this)">Pick Teams</button>
+        </div>
+        <br><br>
+        <div id="tab">
+            <table id="list" style="float: left" cellspacing="3" cellpadding="3" border="2">
+                <thead>
+                    <tr>
+                        <th>Team A
+                        <th>Team B
+                    </tr>
+                </thead>
+                <tbody id="players">
+
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <table id="benchlist" style="margin-inline-start: 200px;" cellspacing="3" cellpadding="3" border="2">
+                <thead>
+                    <tr>
+                        <th>Bench</th>
+                    </tr>
+                </thead>
+                <tbody id="benchplayers">
+
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <script>
+
+        function generateTeams(names) {
+            var arr = []
+            names.form.querySelectorAll('li').forEach(function (el) {
+                arr.push(el.textContent)
+            });
+            console.log(arr)
+            populateTable(shuffle(arr))
+            console.log(arr)
+        }
+
+        function shuffle(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr
+        }
+
+        function populateTable(arr) {
+            document.getElementById("players").innerHTML = "";
+            var table = document.getElementById('players');
+            for (let i = 0; i < 2; i++) {
+                var row = table.insertRow();
+                for (let j = 0; j < 2; j++) {
+                    var col = row.appendChild(document.createElement('td'));
+                    col.textContent = arr.pop()
+                }
+            }
+
+            document.getElementById("benchplayers").innerHTML = "";
+            var benchtable = document.getElementById('benchplayers');
+            while (arr.length != 0) {
+                col = benchtable.insertRow().appendChild(document.createElement('td'));
+                col.textContent = arr.pop();
+                console.log(arr.length);
+            }
+        }
+
+        function addName(name) {
+            name.form.querySelectorAll('input').forEach(function (name) {
+                var node = document.createElement('li');
+                node.appendChild(document.createTextNode(name.value));
+                document.querySelector('ul').appendChild(node)
+            });
+            document.getElementById('Name').value = '';
+        }
+
+        function removeName(e) {
+            e.parentElement.remove()
+        }
+
+    </script>
+
+</body>
+
+</html>
