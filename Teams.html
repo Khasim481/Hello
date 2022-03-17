@@ -6,17 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- <style>
+        body {
+            background-color: gray;
+        }
+    </style> -->
 </head>
 
 
 <body>
     <form>
+        <!-- <img src="shuttle.jpg"> -->
         <h1><b>Shuttle Time</b></h1><br>
-        <input type="text" id="Name" placeholder="Player Name">
+        <input type="text" id="PlayerName" placeholder="Player Name">
 
-        <button type="button" onclick="addName(this)">Add Player</button><br><br>
+        <button type="button" onclick="addName(document.getElementById('PlayerName').value)">Add Player</button><br><br>
         <div id="random">
-            <ul id="nlist"></ul>
+            <ul id="nlist">
+                <li><input type="checkbox" id="Fairoz" value="Fairoz">Fairoz</li>
+                <li><input type="checkbox" id="Gopi" value="Gopi">Gopi</li>
+                <li><input type="checkbox" id="Jani" value="Jani">Jani</li>
+                <li><input type="checkbox" id="Khasim" value="Khasim">Khasim</li>
+                <li><input type="checkbox" id="Kiran" value="Kiran">Kiran</li>
+                <li><input type="checkbox" id="Rishi" value="Rishi">Rishi</li>
+                <li><input type="checkbox" id="Satya" value="Satya">Satya</li>
+            </ul>
             <button type="button" onclick="generateTeams(this)">Pick Teams</button>
         </div>
         <br><br>
@@ -48,15 +62,12 @@
         </div>
     </form>
     <script>
-
         function generateTeams(names) {
             var arr = []
-            names.form.querySelectorAll('li').forEach(function (el) {
-                arr.push(el.textContent)
+            names.form.querySelectorAll('input[type=checkbox]:checked').forEach(function (el) {
+                arr.push(el.value)
             });
-            console.log(arr)
             populateTable(shuffle(arr))
-            console.log(arr)
         }
 
         function shuffle(arr) {
@@ -83,17 +94,21 @@
             while (arr.length != 0) {
                 col = benchtable.insertRow().appendChild(document.createElement('td'));
                 col.textContent = arr.pop();
-                console.log(arr.length);
             }
         }
 
         function addName(name) {
-            name.form.querySelectorAll('input').forEach(function (name) {
-                var node = document.createElement('li');
-                node.appendChild(document.createTextNode(name.value));
-                document.querySelector('ul').appendChild(node)
-            });
-            document.getElementById('Name').value = '';
+            var node = document.createElement('li');
+
+            var checkbox = document.createElement('input');
+            checkbox.type = "checkbox";
+            checkbox.value = name;
+            checkbox.id = name;
+            node.appendChild(checkbox);
+            node.appendChild(document.createTextNode(name));
+
+            document.querySelector('ul').appendChild(node)
+            document.getElementById('PlayerName').value = '';
         }
 
         function removeName(e) {
